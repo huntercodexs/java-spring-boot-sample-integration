@@ -1,0 +1,24 @@
+meta {
+  name: Rate Limit Service Bus Consumer Simulation 2
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/simulate-queue-process2
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "1",
+    "userId": "userA",
+    "content": "test"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

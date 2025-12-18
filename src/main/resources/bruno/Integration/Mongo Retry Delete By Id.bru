@@ -1,0 +1,23 @@
+meta {
+  name: Mongo Retry Delete By Id
+  type: http
+  seq: 14
+}
+
+delete {
+  url: http://localhost:8080/mongo-retry/users/6924b5e7965fdc0a0afe1daf
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Surename Test",
+    "email": "useranme@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

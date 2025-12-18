@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.13</version>
+        <relativePath/>
+    </parent>
+
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <groupId>com.huntercodexs</groupId>
+
+    <artifactId>java-spring-boot-sample-integration</artifactId>
+    <name>java-spring-boot-sample-integration</name>
+    <description>java-spring-boot-sample-integration</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <sonar.coverage.exclusions>
+            src/main/java/**/Application.java
+        </sonar.coverage.exclusions>
+    </properties>
+
+    <dependencies>
+
+        <!--Spring Boot-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <!--Huntercodexs Integration Lib-->
+        <dependency>
+            <groupId>com.huntercodexs</groupId>
+            <artifactId>huntercodexs-spring-integration</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--Tests: Mockito Inline para Java 21 -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <!--maven-compiler-plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters><!--Required for RateLimitServiceBus-->
+                </configuration>
+            </plugin>
+
+            <!--maven-surefire-plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <!--maven-dependency-plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <!--srcclr-maven-plugin-->
+            <plugin>
+                <groupId>com.srcclr</groupId>
+                <artifactId>srcclr-maven-plugin</artifactId>
+            </plugin>
+
+            <!--spring-boot-maven-plugin-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--CODEGEN FOR OPENAPI: Implement these configurations in the consumer application-->
+
+            <!--build-helper-maven-plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated/swagger/gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--openapi-generator-maven-plugin-->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.16.0</version>
+                <executions>
+
+                    <!--OPENAPI Sample-->
+                    <execution>
+                        <id>users</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>./src/main/resources/openapi/USER-SAMPLE-API.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <modelPackage>com.huntercodexs.api.users.model</modelPackage>
+                            <apiPackage>com.huntercodexs.api.users.api</apiPackage>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <generateSupportingFiles>true</generateSupportingFiles>
+                                <sourceFolder>gen</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <java21>true</java21>
+                                <serializableModel>true</serializableModel>
+                            </configOptions>
+                            <templateDirectory>./src/main/resources/openapi/templates</templateDirectory>
+                        </configuration>
+                    </execution>
+
+                    <!--FEIGN Sample-->
+                    <execution>
+                        <id>users-data</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>./src/main/resources/feign/openapi/USER-DATA-SAMPLE-API.yaml</inputSpec>
+                            <modelPackage>com.huntercodexs.integration.users_data.model</modelPackage>
+                            <apiPackage>com.huntercodexs.integration.users_data.api</apiPackage>
+                            <generatorName>spring</generatorName>
+                            <library>spring-cloud</library>
+                            <configHelp/>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <performBeanValidation>true</performBeanValidation>
+                                <sourceFolder>gen</sourceFolder>
+                                <java21>true</java21>
+                                <useTags>true</useTags>
+                                <title>usersData</title> <!-- Used for feign bean name and uri property-->
+                            </configOptions>
+                            <templateDirectory>./src/main/resources/feign/templates</templateDirectory>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

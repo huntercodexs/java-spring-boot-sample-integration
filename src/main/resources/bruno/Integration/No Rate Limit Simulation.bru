@@ -1,0 +1,23 @@
+meta {
+  name: No Rate Limit Simulation
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/api/public
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Test",
+    "email": "email@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

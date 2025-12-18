@@ -1,0 +1,23 @@
+meta {
+  name: Rate Limit User Delete Simulation
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:8080/api/simulation/users/123
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Test",
+    "email": "email@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

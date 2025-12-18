@@ -1,0 +1,23 @@
+meta {
+  name: User Create Simulation Invalid Api
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:8080/api/users/test/invalid-api
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Test",
+    "email": "email@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,6 @@
+Put in this folder the following files required for SSL configuration:
+- broker.keystore.jks
+- broker.truststore.jks
+- key_password
+- keystore_password
+- truststore_password

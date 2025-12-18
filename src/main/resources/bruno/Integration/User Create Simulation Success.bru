@@ -1,0 +1,23 @@
+meta {
+  name: User Create Simulation Success
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:8080/api/users/test/success
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Test",
+    "email": "email@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

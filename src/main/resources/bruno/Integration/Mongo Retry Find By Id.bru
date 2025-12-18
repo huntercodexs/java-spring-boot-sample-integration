@@ -1,0 +1,23 @@
+meta {
+  name: Mongo Retry Find By Id
+  type: http
+  seq: 12
+}
+
+get {
+  url: http://localhost:8080/mongo-retry/users/6924b5e7965fdc0a0afe1daf
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Username Test",
+    "email": "email@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
