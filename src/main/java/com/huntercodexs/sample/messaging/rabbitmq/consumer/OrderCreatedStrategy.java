@@ -18,7 +18,7 @@ public class OrderCreatedStrategy implements RabbitConsumerStrategy {
     }
 
     @Override
-    public void messageConsumer(String payload, Message originalMessage, Map<String, Object> headers) throws Exception {
+    public void messageConsumer(String payload, Message originalMessage, Map<String, Object> headers) throws RabbitExceptionRetryIntegration {
         // parse payload if JSON, for demo do simple print
         System.out.println("[Receiving OrderCreated] payload=" + payload);
         // simulate processing...

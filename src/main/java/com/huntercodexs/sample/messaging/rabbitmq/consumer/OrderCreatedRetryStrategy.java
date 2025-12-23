@@ -1,6 +1,7 @@
 package com.huntercodexs.sample.messaging.rabbitmq.consumer;
 
 import com.huntercodexs.integration.rabbitmq.consumer.RabbitConsumerStrategy;
+import com.huntercodexs.integration.rabbitmq.core.handler.RabbitExceptionRetryIntegration;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class OrderCreatedRetryStrategy implements RabbitConsumerStrategy {
     }
 
     @Override
-    public void messageConsumer(String payload, Message originalMessage, Map<String, Object> headers) throws Exception {
+    public void messageConsumer(String payload, Message originalMessage, Map<String, Object> headers) throws RabbitExceptionRetryIntegration {
         // maybe different logic on retries, for demo use same
         System.out.println("[Receiving OrderCreatedRetry] payload=" + payload + " headers=" + headers);
     }
