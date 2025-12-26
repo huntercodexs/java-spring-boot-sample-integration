@@ -1,7 +1,7 @@
 package com.huntercodexs.sample.component.exception;
 
-import com.huntercodexs.integration.core.interfaces.GlobalExceptionInterceptorIntegration;
 import com.huntercodexs.integration.handler.enumerator.GlobalEnumIntegration;
+import com.huntercodexs.integration.handler.interfaces.GlobalExceptionInterceptorIntegration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
